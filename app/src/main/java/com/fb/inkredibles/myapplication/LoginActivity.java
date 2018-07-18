@@ -15,6 +15,7 @@ import com.parse.ParseUser;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -70,5 +71,10 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @OnClick(R.id.btnSignUp)
+    public void launchSignUp() {
+        startActivity(new Intent(LoginActivity.this, SignupActivity.class));
     }
 }
