@@ -39,12 +39,12 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 //        //persisted user code
-//        ParseUser currentUser = ParseUser.getCurrentUser();
-//        if (currentUser != null){
-//            final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null){
+            final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @OnClick(R.id.btnLogIn)

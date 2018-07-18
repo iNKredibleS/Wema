@@ -3,7 +3,9 @@ package com.fb.inkredibles.myapplication;
 
 import android.app.Application;
 
+import com.fb.inkredibles.myapplication.models.Post;
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 public class ParseApp extends Application {
 
@@ -14,7 +16,7 @@ public class ParseApp extends Application {
 
         //need to register our subclass
         //custom parse model that we need to implement
-        //ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Post.class);
 
         //set up parse...clientKey that is masterkey
         final Parse.Configuration configuration = new Parse.Configuration.Builder(this)
