@@ -19,7 +19,7 @@ import java.util.Random;
 
 public class RAKActivity extends AppCompatActivity {
     TextView rakTxt;
-    int total, randomNum;
+    int total, current;
     Random rand;
     Button refreshBtn;
 
@@ -48,9 +48,14 @@ public class RAKActivity extends AppCompatActivity {
             public void done(List<Rak> objects, ParseException e) {
                 if(e == null) {
                     Log.d("FindSuccessful", "Finding RAK Successful");
-                    randomNum = rand.nextInt(total) + 1;
+                    int randomNum = rand.nextInt(total) + 1;
 
                     Rak currentRak = objects.get(randomNum - 1);
+
+                    //store current randomNum so dont refresh to the same thing
+                    current = randomNum;
+
+                    //set text box
                     String title = currentRak.getTitle();
 
                     rakTxt = findViewById(R.id.rakTxt);
@@ -75,7 +80,13 @@ public class RAKActivity extends AppCompatActivity {
                     public void done(List<Rak> objects, ParseException e) {
                         if(e == null) {
                             Log.d("FindSuccessful", "Finding RAK Successful");
-                            randomNum = rand.nextInt(total) + 1;
+
+                            int randomNum = rand.nextInt(total) + 1;
+
+                            while(randomNum == current) {
+                                randomNum = rand.nextInt(total) + 1;
+                            }
+
 
                             Rak currentRak = objects.get(randomNum - 1);
                             String title = currentRak.getTitle();
@@ -109,7 +120,7 @@ public class RAKActivity extends AppCompatActivity {
             public void done(List<Rak> objects, ParseException e) {
                 if(e == null) {
                     Log.d("FindSuccessful", "Finding RAK Successful");
-                    randomNum = rand.nextInt(total) + 1;
+                    int randomNum = rand.nextInt(total) + 1;
 
                     Rak currentRak = objects.get(randomNum - 1);
                     //ask angie
