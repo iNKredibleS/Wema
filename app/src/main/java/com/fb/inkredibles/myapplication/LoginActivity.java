@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                         // so we know that the network request is completed
                         if (e == null) {
                             Log.d("LoginActivity", "login in successful");
-                            final Intent intent = new Intent(LoginActivity.this, RAKActivity.class);
+                            final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
