@@ -7,7 +7,7 @@
     tools:context=".PostActivity">
 
     <TextView
-        android:id="@+id/tvBody"
+        android:id="@+id/tvMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -15,13 +15,13 @@
         android:text="We are in the post detal page" />
 
     <com.parse.ParseImageView
-        android:id="@+id/ivPostImg"
+        android:id="@+id/ivPostImage"
         android:layout_width="match_parent"
         android:layout_height="252dp"
+        android:transitionName="postPicTransition"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="38dp" />
-
 
 
     <com.parse.ParseImageView
@@ -29,16 +29,17 @@
         android:layout_width="42dp"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/ivPostImg"
+        android:layout_below="@+id/ivPostImage"
         android:src="@android:drawable/btn_star" />
-    
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tvBody"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
+        android:transitionName="titleTransition"
         android:text="Title" />
 
 </RelativeLayout>

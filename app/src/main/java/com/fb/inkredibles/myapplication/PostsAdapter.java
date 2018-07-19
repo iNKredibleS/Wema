@@ -1,7 +1,10 @@
 package com.fb.inkredibles.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,15 +30,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
 
     public class ViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView tvMessage;
+        public TextView tvTitle;
         public ParseImageView ivPostImageView;
+
 
         public  ViewHolder(View itemView){
             super(itemView);
             //tvMessage = (TextView) itemView.findViewById()
             //tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
             //TODO: use title and not message
-            tvMessage = (TextView) itemView.findViewById(R.id.tvMessage);
+            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             ivPostImageView = (ParseImageView) itemView.findViewById(R.id.ivPostImage);
 
             itemView.setOnClickListener(this);
@@ -50,7 +54,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 Post selectedPost = mPosts.get(position);
                 //for parcels to be defined, remember to add the parcel dependencies in the build.gradle file
                 intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(selectedPost));
-                context.startActivity(intent);
+                Pair<View, String> p1 = Pair.create((View)ivPostImageView, "postPicTransition");
+                Pair<View,String> p2 = Pair.create((View)tvTitle, "titleTransition");
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation((Activity) context, p1,p2);
+                context.startActivity(intent, options.toBundle());
+//                context.startActivity(intent);
             }
 
         }
@@ -72,8 +81,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     public void onBindViewHolder(PostsAdapter.ViewHolder viewHolder, int position) {
         // Get the post at the current position
         Post post = mPosts.get(position);
-        viewHolder.tvMessage.setText(post.getMessage()); //TODO: bind the title and not the message
-
+        viewHolder.tvTitle.setText(post.getTitle());
         //ParseFile file = post.getImage();
         viewHolder.ivPostImageView.setParseFile(post.getImage());
         viewHolder.ivPostImageView.loadInBackground();
