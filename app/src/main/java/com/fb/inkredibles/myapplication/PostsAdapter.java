@@ -20,6 +20,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     private List<Post>mPosts;
     private Context context;
 
+    //static public boolean archive;
+    MainActivity main;
+
     // Pass in the contact array into the constructor
     public PostsAdapter(List<Post> posts) {
         mPosts = posts;
@@ -29,12 +32,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     public class ViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView tvMessage;
         public ParseImageView ivPostImageView;
+        public TextView tvItemTitle;
 
         public  ViewHolder(View itemView){
             super(itemView);
             //tvMessage = (TextView) itemView.findViewById()
             //tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
             //TODO: use title and not message
+            tvItemTitle = (TextView) itemView.findViewById(R.id.tvItemTitle);
             tvMessage = (TextView) itemView.findViewById(R.id.tvMessage);
             ivPostImageView = (ParseImageView) itemView.findViewById(R.id.ivPostImage);
 
@@ -60,11 +65,23 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     public PostsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.item_post, parent, false);
-        // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView);
-        return viewHolder;
+        main = new MainActivity();
+
+        if(main.getArchive()){
+            // Inflate the custom layout
+            View contactView = inflater.inflate(R.layout.item_archive, parent, false);
+            // Return a new holder instance
+            ViewHolder viewHolder = new ViewHolder(contactView);
+            return viewHolder;
+        } else {
+            // Inflate the custom layout
+            View contactView = inflater.inflate(R.layout.item_post, parent, false);
+            // Return a new holder instance
+            ViewHolder viewHolder = new ViewHolder(contactView);
+            return viewHolder;
+
+        }
+
     }
 
     // Involves populating data into the item through holder
@@ -73,7 +90,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         // Get the post at the current position
         Post post = mPosts.get(position);
         viewHolder.tvMessage.setText(post.getMessage()); //TODO: bind the title and not the message
-
+        viewHolder.tvItemTitle.setText(post.getTitle());
         //ParseFile file = post.getImage();
         viewHolder.ivPostImageView.setParseFile(post.getImage());
         viewHolder.ivPostImageView.loadInBackground();

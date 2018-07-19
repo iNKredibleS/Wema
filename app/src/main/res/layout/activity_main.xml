@@ -40,5 +40,12 @@
         android:layout_marginBottom="28dp"
         android:text="Go to grid page" />
 
+    <Button
+        android:id="@+id/btn_archive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btnCreate"/>
+
 
 </RelativeLayout>
