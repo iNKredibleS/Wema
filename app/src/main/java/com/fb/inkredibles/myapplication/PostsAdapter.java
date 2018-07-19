@@ -67,8 +67,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         //ParseFile file = post.getImage();
         viewHolder.ivPostImageView.setParseFile(post.getImage());
         viewHolder.ivPostImageView.loadInBackground();
-
-
     }
 
     // Returns the total count of items in the list
