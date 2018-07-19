@@ -1,8 +1,16 @@
 package com.fb.inkredibles.myapplication;
 
 import android.content.Intent;
+
 import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+    @BindView(R.id.btGrid) Button btGrid;
+
 
     Button rakBtn;
 
@@ -26,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
 
         rakBtn = findViewById(R.id.rakBtn);
 
@@ -38,12 +50,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        ButterKnife.bind(this);
+
     }
 
     @OnClick(R.id.btnCreate)
     protected void launchCreate(){
         startActivity(new Intent(MainActivity.this, CreatePostActivity.class));
+
+
+        ButterKnife.bind(this);
+        btGrid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FeedActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

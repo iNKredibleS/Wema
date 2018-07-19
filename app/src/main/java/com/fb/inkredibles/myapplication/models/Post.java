@@ -45,6 +45,7 @@ public class Post extends ParseObject {
         return getParseFile(KEY_IMAGE);
     }
 
+
     public void setImage(ParseFile image){
         put(KEY_IMAGE, image);
     }
@@ -77,6 +78,7 @@ public class Post extends ParseObject {
     public ParseUser getUser(){
         return getParseUser(KEY_CREATOR);
     }
+
     public void setUser(ParseUser parseUser){
         put(KEY_CREATOR, parseUser);
 
@@ -95,11 +97,9 @@ public class Post extends ParseObject {
         }
 
         public Query withUser (){
-            include("user");
+            include("creator_user");
             return this;
         }
     }
-
-
 
 }

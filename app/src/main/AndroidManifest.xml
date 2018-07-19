@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fb.inkredibles.myapplication">
+    package="com.fb.inkredibles.myapplication"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <uses-sdk tools:overrideLibrary="com.wajahatkarim3.clapfab"/>
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -28,8 +31,13 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".FeedActivity" />
 
+
         <activity android:name=".RAKActivity"></activity>
         <activity android:name=".CreatePostActivity"></activity>
+
+        <activity android:name=".PostActivity"></activity>
+
     </application>
+
 
 </manifest>

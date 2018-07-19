@@ -27,9 +27,18 @@
         android:id="@+id/btnCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="compose post"
+        android:layout_below="@+id/rakBtn"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/rakBtn"/>
+        android:text="compose post" />
+
+    <Button
+        android:id="@+id/btGrid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="28dp"
+        android:text="Go to grid page" />
 
 
 </RelativeLayout>
