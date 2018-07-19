@@ -2,6 +2,7 @@ package com.fb.inkredibles.myapplication.models;
 
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -14,6 +15,7 @@ public class Post extends ParseObject {
     //just a comment to test
     private static  final String KEY_NAME = "name";
     private static  final String KEY_MESSAGE = "message";
+    private static  final String KEY_IMAGE = "image";
     private static  final String KEY_PRIVACY = "privacy";
     private static  final String KEY_TYPE = "type";
     private static  final String KEY_RAK = "rak";
@@ -22,24 +24,25 @@ public class Post extends ParseObject {
 
 
     public  String getMessage(){
-        return getString(KEY_NAME);
+        return getString(KEY_MESSAGE);
     }
 
     public void setMessage(String message){
         put(KEY_MESSAGE, message);
     }
 
-//    public ParseFile getImage(){
-//        return getParseFile(KEY_IMAGE);
-//    }
+    public ParseFile getImage(){
+        return getParseFile(KEY_IMAGE);
+    }
 
-//    public void setImage(ParseFile image){
-//        put(KEY_IMAGE, image);
-//    }
+    public void setImage(ParseFile image){
+        put(KEY_IMAGE, image);
+    }
 
     public ParseUser getUser(){
         return getParseUser(KEY_CREATOR);
     }
+
     public void setUser(ParseUser parseUser){
         put(KEY_CREATOR, parseUser);
 
@@ -57,11 +60,9 @@ public class Post extends ParseObject {
         }
 
         public Query withUser (){
-            include("user");
+            include("creator_user");
             return this;
         }
     }
-
-
 
 }

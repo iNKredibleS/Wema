@@ -37,4 +37,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //recyclerview
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+    //for swipe refresh
+    implementation 'com.android.support:support-v4:27.1.1'
+    //for parse imageview
+    implementation 'com.parse:parseui-widget-android:0.0.2'
+
 }

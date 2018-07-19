@@ -15,7 +15,6 @@ import com.parse.ParseUser;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -37,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
+
+        usernameInput.setText("firstuser");
+        passwordInput.setText("password");
 
 //        //persisted user code
 //        ParseUser currentUser = ParseUser.getCurrentUser();
