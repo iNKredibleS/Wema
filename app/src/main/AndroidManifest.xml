@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".FeedActivity" />
-        <activity android:name=".CreatePost"></activity>
+        <activity android:name=".CreatePostActivity"></activity>
     </application>
 
 </manifest>

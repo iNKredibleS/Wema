@@ -13,9 +13,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
 import android.util.Log;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.fb.inkredibles.myapplication.models.Post;
 import com.parse.ParseException;
@@ -35,7 +37,7 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_OK;
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
-public class CreatePost extends AppCompatActivity {
+public class CreatePostActivity extends AppCompatActivity {
 
     //bind all of the views
     @BindView(R.id.Title) EditText et_title;
@@ -43,8 +45,9 @@ public class CreatePost extends AppCompatActivity {
     @BindView(R.id.switch_give_rec) Switch switch_give_rec;
     @BindView(R.id.switch_pub_pri) Switch switch_pub_pri;
     @BindView(R.id.pictureHolder) ImageView pictureHolder;
-    //gallery button
-    //camera button
+    @BindView(R.id.tv_give_rec) TextView tvGiveRec;
+   // @BindView(R.id.tv_pub_pri) TextView tvPubPri;
+
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_GALLERY_IMAGE = 2;
@@ -84,7 +87,19 @@ public class CreatePost extends AppCompatActivity {
         Editable etext = et_title.getText();
         Selection.setSelection(etext, position);
 
+        //setting up switches
+        //public private switch
+        switch_pub_pri.setOnCheckedChangeListener(this);
+
+
+        switch_pub_pri.setTextOn("Public"); // displayed text of the Switch whenever it is in checked or on state
+        switch_pub_pri.setTextOff("Private");
+
+
     }
+
+
+
 
     //on post button clicked
     @OnClick(R.id.btn_post)
@@ -127,13 +142,14 @@ public class CreatePost extends AppCompatActivity {
         newPost.setTitle(title);
         newPost.setMessage(message);
         newPost.setUser(user);
+        newPost.setImage(parseFile);
 
         newPost.saveInBackground(
                 new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
-                            Log.d("CreatePost", "create post success");
+                            Log.d("CreatePostActivity", "create post success");
 
                         } else {
                             e.printStackTrace();

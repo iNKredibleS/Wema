@@ -8,7 +8,6 @@ import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnCreate)
     protected void launchCreate(){
-        startActivity(new Intent(MainActivity.this, CreatePost.class));
+        startActivity(new Intent(MainActivity.this, CreatePostActivity.class));
     }
 
 

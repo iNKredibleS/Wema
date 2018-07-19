@@ -4,15 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreatePost">
+    tools:context=".CreatePostActivity">
 
     <Switch
         android:id="@+id/switch_give_rec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/Title"
-        android:layout_below="@+id/et_message"
-        android:text="Switch" />
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/et_message"
+        />
+
+    <TextView
+        android:id="@+id/tv_give_rec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_message"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/switch_give_rec"
+        android:text="Text"/>
 
     <EditText
         android:id="@+id/Title"
@@ -72,7 +82,18 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/switch_give_rec"
         android:layout_centerVertical="true"
-        android:text="Switch" />
+        />
+
+    <TextView
+        android:id="@+id/tv_pub_pri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_give_rec"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/switch_pub_pri"
+        android:text="Text"/>
+
+
 
     <Button
         android:id="@+id/btn_post"
