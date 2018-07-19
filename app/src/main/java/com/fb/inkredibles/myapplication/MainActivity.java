@@ -1,21 +1,9 @@
 package com.fb.inkredibles.myapplication;
 
 import android.content.Intent;
-
-import android.support.v7.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import android.view.View;
-import android.widget.Button;
-
-
 import android.widget.Button;
 
 import butterknife.BindView;
@@ -27,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     Button rakBtn;
+    public static boolean archive;
 
     //TODO be sure to remove this button and intent
     @BindView(R.id.btnCreate) Button button;
@@ -49,16 +38,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-    }
-
-    @OnClick(R.id.btnCreate)
-    protected void launchCreate(){
-        startActivity(new Intent(MainActivity.this, CreatePostActivity.class));
-
-
-        ButterKnife.bind(this);
         btGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +46,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
+
+    @OnClick(R.id.btnCreate)
+    protected void launchCreate(){
+        startActivity(new Intent(MainActivity.this, CreatePostActivity.class));
+    }
+
+    @OnClick(R.id.btn_archive)
+    protected void launchArchive(){
+        archive = true;
+        startActivity(new Intent (MainActivity.this, ArchiveActivity.class));
+    }
+
+    public boolean getArchive(){
+        return archive;
+    }
+
+
 
 
 }
