@@ -1,6 +1,7 @@
 package com.fb.inkredibles.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +12,13 @@ import android.widget.TextView;
 import com.fb.inkredibles.myapplication.models.Post;
 import com.parse.ParseImageView;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
     private List<Post>mPosts;
+    private Context context;
 
     // Pass in the contact array into the constructor
     public PostsAdapter(List<Post> posts) {
@@ -40,18 +44,24 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         @Override
         public void onClick(View view) {
             Log.d("PostsAdapter","Clicked view");
+            Intent intent = new Intent(context,PostActivity.class );
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION){
+                Post selectedPost = mPosts.get(position);
+                //for parcels to be defined, remember to add the parcel dependencies in the build.gradle file
+                intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(selectedPost));
+                context.startActivity(intent);
+            }
 
         }
     }
 
     @Override
     public PostsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
         // Inflate the custom layout
         View contactView = inflater.inflate(R.layout.item_post, parent, false);
-
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
