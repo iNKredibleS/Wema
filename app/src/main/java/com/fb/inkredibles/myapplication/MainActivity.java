@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         rakBtn.setOnClickListener(new View.OnClickListener() {
 
-            @Overridefi
+            @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, RAKActivity.class);
                 startActivity(i);
