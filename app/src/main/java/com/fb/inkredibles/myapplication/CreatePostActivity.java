@@ -32,6 +32,7 @@ import java.io.OutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
@@ -46,12 +47,14 @@ public class CreatePostActivity extends AppCompatActivity {
     @BindView(R.id.switch_pub_pri) Switch switch_pub_pri;
     @BindView(R.id.pictureHolder) ImageView pictureHolder;
     @BindView(R.id.tv_give_rec) TextView tvGiveRec;
-   // @BindView(R.id.tv_pub_pri) TextView tvPubPri;
+    @BindView(R.id.tv_pub_pri) TextView tvPubPri;
 
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_GALLERY_IMAGE = 2;
     private static File filesDir;
+    private String type;
+    private String privacy;
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -88,14 +91,46 @@ public class CreatePostActivity extends AppCompatActivity {
         Selection.setSelection(etext, position);
 
         //setting up switches
-        //public private switch
-        switch_pub_pri.setOnCheckedChangeListener(this);
+        switch_pub_pri.setChecked(true);
+        switch_give_rec.setChecked(true);
+        tvGiveRec.setText("Given");
+        tvPubPri.setText("Public");
+
+        //default type and privacy values
+        type = "Given";
+        privacy = "Public";
 
 
-        switch_pub_pri.setTextOn("Public"); // displayed text of the Switch whenever it is in checked or on state
-        switch_pub_pri.setTextOff("Private");
 
 
+//        switch_pub_pri.setTextOn("Public"); // displayed text of the Switch whenever it is in checked or on state
+//        switch_pub_pri.setTextOff("Private");
+
+
+    }
+
+    //TODO change to teriary format
+    @OnCheckedChanged(R.id.switch_give_rec)
+    void giveRec(CompoundButton compoundButton, boolean checked){
+        if(checked) {
+            tvGiveRec.setText("Given");
+            type = "Given";
+        } else {
+            tvGiveRec.setText("Received");
+            type = "Received";
+        }
+
+    }
+
+    @OnCheckedChanged(R.id.switch_pub_pri)
+    void pubPri(CompoundButton compoundButton, boolean checked){
+        if(checked) {
+            tvPubPri.setText("Public");
+            privacy = "Public";
+        } else {
+            tvPubPri.setText("Just for me");
+            privacy = "Private";
+        }
     }
 
 
@@ -107,13 +142,15 @@ public class CreatePostActivity extends AppCompatActivity {
         final String title = et_title.getText().toString();
         final String message = et_message.getText().toString();
         final ParseUser user = ParseUser.getCurrentUser();
+        final String finalPrivacy = privacy;
+        final String finalType = type;
 
         parseFile = new ParseFile(file);
 
         //set up getting image
         //get final Strings for switches too
 
-        createPost(title, message, user, parseFile); //eventually createPost (title, message, user, image, privacy, type)
+        createPost(title, message, user, parseFile, finalPrivacy, finalType); //eventually createPost (title, message, user, image, privacy, type)
     }
 
     @OnClick(R.id.btn_gallery)
@@ -137,12 +174,14 @@ public class CreatePostActivity extends AppCompatActivity {
 
     //create post
     //set the title, message, user, image, privacy, give, receive
-    private void createPost(String title, String message, ParseUser user, ParseFile parseFile) {
+    private void createPost(String title, String message, ParseUser user, ParseFile parseFile, String privacy, String type) {
         final Post newPost = new Post();
         newPost.setTitle(title);
         newPost.setMessage(message);
         newPost.setUser(user);
         newPost.setImage(parseFile);
+        newPost.setPrivacy(privacy);
+        newPost.setType(type);
 
         newPost.saveInBackground(
                 new SaveCallback() {
