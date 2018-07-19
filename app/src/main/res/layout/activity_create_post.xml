@@ -60,11 +60,11 @@
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <ImageView
-        android:id="@+id/iv_post_pic"
+        android:id="@+id/pictureHolder"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_below="@id/et_message"
-        android:layout_toLeftOf="@id/btn_camera"/>
+        android:layout_toLeftOf="@id/btn_camera" />
 
     <Switch
         android:id="@+id/switch_pub_pri"

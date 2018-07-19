@@ -1,5 +1,13 @@
 package com.fb.inkredibles.myapplication;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,9 +23,17 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 public class CreatePost extends AppCompatActivity {
 
@@ -26,16 +42,32 @@ public class CreatePost extends AppCompatActivity {
     @BindView(R.id.et_message) EditText et_message;
     @BindView(R.id.switch_give_rec) Switch switch_give_rec;
     @BindView(R.id.switch_pub_pri) Switch switch_pub_pri;
-    @BindView(R.id.iv_post_pic) ImageView iv_post_pic;
+    @BindView(R.id.pictureHolder) ImageView pictureHolder;
     //gallery button
     //camera button
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_GALLERY_IMAGE = 2;
+    private static File filesDir;
+
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    private ParseFile parseFile;
+    private File file;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
+
+        filesDir = getFilesDir(); //this seems fishy
+
         //butterknife bind
         ButterKnife.bind(this);
 
@@ -61,14 +93,27 @@ public class CreatePost extends AppCompatActivity {
         final String message = et_message.getText().toString();
         final ParseUser user = ParseUser.getCurrentUser();
 
+        parseFile = new ParseFile(file);
+
         //set up getting image
         //get final Strings for switches too
 
-        createPost(title, message, user); //eventually createPost (title, message, user, image, privacy, type)
+        createPost(title, message, user, parseFile); //eventually createPost (title, message, user, image, privacy, type)
     }
-    //get the edited text fields and image if not null
-    //get the state of the switches
-    //pass to function that creates post
+
+    @OnClick(R.id.btn_gallery)
+    protected void gallery(){
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent , REQUEST_GALLERY_IMAGE);
+    }
+
+    @OnClick(R.id.btn_camera)
+    protected void camera() {
+        if(isStoragePermissionGranted()) {
+            dispatchTakePictureIntent();
+        }
+    }
 
     //switches
     //create a protected/public? boolean for the states and then in create post
@@ -77,7 +122,7 @@ public class CreatePost extends AppCompatActivity {
 
     //create post
     //set the title, message, user, image, privacy, give, receive
-    private void createPost(String title, String message, ParseUser user) {
+    private void createPost(String title, String message, ParseUser user, ParseFile parseFile) {
         final Post newPost = new Post();
         newPost.setTitle(title);
         newPost.setMessage(message);
@@ -97,4 +142,72 @@ public class CreatePost extends AppCompatActivity {
                 });
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            pictureHolder.setImageBitmap(imageBitmap);
+            file = persistImage(imageBitmap, "pic1");
+        }else if(requestCode == REQUEST_GALLERY_IMAGE && resultCode == RESULT_OK){
+            Uri imageUri = data.getData();
+            pictureHolder.setImageURI(imageUri);
+            try {
+                Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                file = persistImage(imageBitmap, "pic2");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static File  persistImage(Bitmap bitmap, String name) {
+        File imageFile = new File(filesDir, name + ".jpg");
+        OutputStream os;
+        try {
+            os = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            Log.d("Create Post Fragment", "Error writing bitmap", e);
+        }
+        return imageFile;
+
+    }
+
+
+
+
+
+    /*Requests permission to read external storage*/
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                Log.v("Create Post Fragment","Permission is granted");
+                return true;
+            } else {
+
+                Log.v("Create Post Fragment","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        } else {
+            Log.v("Create Post Fragment","Permission is granted");
+            return true;
+        }
+    }
+
+  /*dispatches an intent to take a picture*/
+  private void dispatchTakePictureIntent() {
+    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
+      startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+    }
+    }
+
 }
+
+
