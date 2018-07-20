@@ -49,15 +49,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-    }
-
-    @OnClick(R.id.btnCreate)
-    protected void launchCreate(){
-        startActivity(new Intent(MainActivity.this, CreatePostActivity.class));
-
-
-        ButterKnife.bind(this);
         btGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +57,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
+
+    @OnClick(R.id.btnCreate)
+    protected void launchCreate(){
+        startActivity(new Intent(MainActivity.this, CreatePostActivity.class));
+    }
+
+
 
 
 }
