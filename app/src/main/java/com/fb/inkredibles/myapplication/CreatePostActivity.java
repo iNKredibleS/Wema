@@ -6,10 +6,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
 import android.util.Log;
@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fb.inkredibles.myapplication.models.Post;
 import com.parse.ParseException;
@@ -34,9 +35,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-
-import static android.app.Activity.RESULT_OK;
-import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 public class CreatePostActivity extends AppCompatActivity {
 
@@ -97,8 +95,8 @@ public class CreatePostActivity extends AppCompatActivity {
         tvPubPri.setText("Public");
 
         //default type and privacy values
-        type = "Given";
-        privacy = "Public";
+        type = "give";
+        privacy = "public";
 
 
 
@@ -114,10 +112,10 @@ public class CreatePostActivity extends AppCompatActivity {
     void giveRec(CompoundButton compoundButton, boolean checked){
         if(checked) {
             tvGiveRec.setText("Given");
-            type = "Given";
+            type = "give";
         } else {
             tvGiveRec.setText("Received");
-            type = "Received";
+            type = "receive";
         }
 
     }
@@ -126,10 +124,10 @@ public class CreatePostActivity extends AppCompatActivity {
     void pubPri(CompoundButton compoundButton, boolean checked){
         if(checked) {
             tvPubPri.setText("Public");
-            privacy = "Public";
+            privacy = "public";
         } else {
             tvPubPri.setText("Just for me");
-            privacy = "Private";
+            privacy = "private";
         }
     }
 
@@ -145,7 +143,7 @@ public class CreatePostActivity extends AppCompatActivity {
         final String finalPrivacy = privacy;
         final String finalType = type;
 
-        parseFile = new ParseFile(file);
+        if(file != null) parseFile = new ParseFile(file);
 
         //set up getting image
         //get final Strings for switches too
@@ -179,7 +177,7 @@ public class CreatePostActivity extends AppCompatActivity {
         newPost.setTitle(title);
         newPost.setMessage(message);
         newPost.setUser(user);
-        newPost.setImage(parseFile);
+        if(parseFile != null) newPost.setImage(parseFile);
         newPost.setPrivacy(privacy);
         newPost.setType(type);
 
@@ -189,6 +187,7 @@ public class CreatePostActivity extends AppCompatActivity {
                     public void done(ParseException e) {
                         if (e == null) {
                             Log.d("CreatePostActivity", "create post success");
+                            Toast.makeText(CreatePostActivity.this, "Post Created", Toast.LENGTH_SHORT).show();
 
                         } else {
                             e.printStackTrace();

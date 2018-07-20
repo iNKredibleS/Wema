@@ -21,7 +21,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     private Context context;
 
     //static public boolean archive;
-    MainActivity main;
+    MainActivity main = new MainActivity();
 
     // Pass in the contact array into the constructor
     public PostsAdapter(List<Post> posts) {
@@ -33,6 +33,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         public TextView tvMessage;
         public ParseImageView ivPostImageView;
         public TextView tvItemTitle;
+        public TextView tvUsername;
 
         public  ViewHolder(View itemView){
             super(itemView);
@@ -42,6 +43,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvItemTitle = (TextView) itemView.findViewById(R.id.tvItemTitle);
             tvMessage = (TextView) itemView.findViewById(R.id.tvMessage);
             ivPostImageView = (ParseImageView) itemView.findViewById(R.id.ivPostImage);
+            tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
 
             itemView.setOnClickListener(this);
         }
@@ -65,7 +67,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     public PostsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        main = new MainActivity();
+
 
         if(main.getArchive()){
             // Inflate the custom layout
@@ -94,6 +96,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         //ParseFile file = post.getImage();
         viewHolder.ivPostImageView.setParseFile(post.getImage());
         viewHolder.ivPostImageView.loadInBackground();
+        if(main.getArchive()) viewHolder.tvUsername.setText(post.getUser().getUsername());
     }
 
     // Returns the total count of items in the list

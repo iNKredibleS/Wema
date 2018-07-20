@@ -33,7 +33,7 @@ public class ArchiveActivity extends AppCompatActivity {
     private void loadArchives(){
         //get the top posts
         final Post.Query postsQuery = new Post.Query();
-        postsQuery.getTop().withUser();
+        postsQuery.getPrivate().withUser();
 
         postsQuery.findInBackground(new FindCallback<Post>() {
             @Override
@@ -49,8 +49,7 @@ public class ArchiveActivity extends AppCompatActivity {
                     rvArchivePosts.setAdapter(archiveAdapter);
 
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(ArchiveActivity.this);
-                    mLayoutManager.setReverseLayout(true);
-                    mLayoutManager.setStackFromEnd(true);
+
                     rvArchivePosts.setLayoutManager(mLayoutManager);
                 }else{
                     e.printStackTrace();

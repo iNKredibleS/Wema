@@ -3,8 +3,11 @@ package com.fb.inkredibles.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.parse.ParseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     Button rakBtn;
-    public static boolean archive;
+    public static boolean archive = false;
 
     //TODO be sure to remove this button and intent
     @BindView(R.id.btnCreate) Button button;
@@ -58,6 +61,18 @@ public class MainActivity extends AppCompatActivity {
     protected void launchArchive(){
         archive = true;
         startActivity(new Intent (MainActivity.this, ArchiveActivity.class));
+    }
+
+    @OnClick(R.id.logout)
+    protected void logout(){
+        ParseUser.logOut();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser == null) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        } else {
+            Log.i("homeactivity", "not logged out");
+        }
     }
 
     public boolean getArchive(){
