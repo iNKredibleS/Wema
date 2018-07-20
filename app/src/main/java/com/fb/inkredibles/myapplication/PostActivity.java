@@ -11,6 +11,8 @@ import com.parse.ParseImageView;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -22,6 +24,8 @@ public class PostActivity extends AppCompatActivity {
     private String bodyText;
     private String title;
     private Post post;
+    private ArrayList<Post> allPosts;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +33,37 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
         ButterKnife.bind(this);
         post = (Post) Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
+        allPosts = Parcels.unwrap(getIntent().getParcelableExtra("all_posts"));
+        position = (int) Parcels.unwrap(getIntent().getParcelableExtra("position"));
+
+        setUpUI();
+
+        ivPostImg.setOnTouchListener(new OnSwipeTouchListener(PostActivity.this) {
+            public void onSwipeTop() {
+                onSwipeLeft();
+            }
+            public void onSwipeRight() {
+                if (position > 0) position --;
+                post = allPosts.get(position);
+                setUpUI();
+            }
+            public void onSwipeLeft() {
+                if (position < allPosts.size() - 1) position ++;
+                post = allPosts.get(position);
+                setUpUI();
+            }
+            public void onSwipeBottom() {
+               onSwipeRight();
+            }
+
+        });
+    }
+    private void setUpUI () {
         String title = post.getTitle() == null? "No title" : post.getTitle();
         tvTitle.setText(title);
         tvMessage.setText(post.getMessage());
         ivPostImg.setParseFile(post.getImage());
         ivPostImg.loadInBackground();
-
     }
 
     @Override

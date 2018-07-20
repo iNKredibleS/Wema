@@ -81,7 +81,6 @@ public class FeedActivity extends AppCompatActivity {
                     rvPosts.setAdapter(adapter);
                     //set the layout manager to position the items
                     StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
-                    mLayoutManager.setReverseLayout(true);
                     rvPosts.setLayoutManager(mLayoutManager);
                 }else{
                     e.printStackTrace();
@@ -89,7 +88,6 @@ public class FeedActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
 }

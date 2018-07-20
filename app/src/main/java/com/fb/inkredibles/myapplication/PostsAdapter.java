@@ -54,6 +54,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 Post selectedPost = mPosts.get(position);
                 //for parcels to be defined, remember to add the parcel dependencies in the build.gradle file
                 intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(selectedPost));
+                intent.putExtra("all_posts", Parcels.wrap(mPosts));
+                intent.putExtra("position", Parcels.wrap(position));
                 Pair<View, String> p1 = Pair.create((View)ivPostImageView, "postPicTransition");
                 Pair<View,String> p2 = Pair.create((View)tvTitle, "titleTransition");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
