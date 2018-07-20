@@ -45,7 +45,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/btnCreate"/>
+        android:layout_below="@id/btnCreate"
+        android:text="Archived Posts"/>
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+        android:layout_below="@id/btn_archive"
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>

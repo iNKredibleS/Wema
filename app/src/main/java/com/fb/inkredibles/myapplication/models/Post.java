@@ -100,6 +100,12 @@ public class Post extends ParseObject {
             include("creator_user");
             return this;
         }
+        public Query getPrivate(){
+            orderByDescending("createdAt");
+            setLimit(50);
+            whereContains("creator_user", ParseUser.getCurrentUser().getObjectId());
+            return this;
+        }
     }
 
 }
